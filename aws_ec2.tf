@@ -35,7 +35,7 @@ resource "aws_instance" "ipfs_host" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t2.micro"
 
-  security_groups = [aws_security_group.allow_ssh.id, aws_security_group.allow_ipfs.id]
+  vpc_security_group_ids = [aws_security_group.allow_ssh.id, aws_security_group.allow_ipfs.id]
   subnet_id       = aws_subnet.ipfs_subnet.id
   key_name        = "ec2-deployer-key-pair"
 

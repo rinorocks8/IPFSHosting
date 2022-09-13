@@ -17,4 +17,13 @@ terraform {
       version = "~> 4.30.0"
     }
   }
+
+  backend "remote" {
+    hostname = "app.terraform.io"
+    organization = "rinorocks8"
+
+    workspaces {
+      name = "IPFSHosting"
+    }
+  }
 }
