@@ -36,8 +36,8 @@ resource "aws_instance" "ipfs_host" {
   instance_type = "t2.micro"
 
   vpc_security_group_ids = [aws_security_group.allow_ssh.id, aws_security_group.allow_ipfs.id]
-  subnet_id       = aws_subnet.ipfs_subnet.id
-  key_name        = "ec2-deployer-key-pair"
+  subnet_id              = aws_subnet.ipfs_subnet.id
+  key_name               = "ec2-deployer-key-pair"
 
   tags = {
     Name        = "ipfs_host"
