@@ -27,6 +27,8 @@ jobs:
       - name: Terraform Init
         id: init
         run: terraform init
+        env:
+          TF_CLI_ARGS_init: '-backend-config="token=${{ secrets.TOKEN }}"'
       
       - name: Terraform Validate
         id: validate
