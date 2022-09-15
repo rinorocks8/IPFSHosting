@@ -67,13 +67,6 @@ jobs:
         if: steps.plan.outcome == 'failure'
         run: exit 1
 
-      - name: Setup Terraform variables
-        id: vars
-        run: |-
-          cat > pipeline.auto.tfvars <<EOF
-          resume = "${{ secrets.TF_VAR_resume }}"
-          EOF
-
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform apply -auto-approve

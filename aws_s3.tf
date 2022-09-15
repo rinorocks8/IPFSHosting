@@ -42,13 +42,18 @@ resource "null_resource" "publish_ipfs" {
 
   provisioner "remote-exec" {
     inline = [
-      "export IPFS_PATH=/home/ubuntu/ipfs/data",
-      "export AWS_ACCESS_KEY_ID=${var.AWS_ACCESS_KEY_ID}",
-      "export AWS_SECRET_ACCESS_KEY=${var.AWS_SECRET_ACCESS_KEY}",
-      "export AWS_DEFAULT_REGION=${var.aws_region}",
       "rm -r /home/ubuntu/files/*",
-      "aws s3 cp s3://${aws_s3_bucket.ipfs_files.bucket} /home/ubuntu/files/ --recursive",
-      //"sudo -E ipfs name publish --key=resume $(sudo -E ipfs add -r /home/ubuntu/files/* | awk '{print $2}')"
+      "aws s3 cp s3://$AWS_IPFS_BUCKET /home/ubuntu/files/ --recursive",
+      "aws kms decrypt --key-id $AWS_KMS_KEY --ciphertext-blob fileb:///home/ubuntu/files/ipns_key.encrypted --output text --query Plaintext | base64 -di | sudo tee /home/ubuntu/ipfs/data/keystore/key_ojsxg5lnmu  > /dev/null",
+      "sudo -E ipfs name publish --key=resume $(sudo -E ipfs add -r /home/ubuntu/files/*.pdf | awk '{print $2}')"
     ]
+    environment = {
+      IPFS_PATH             = "/home/ubuntu/ipfs/data"
+      AWS_ACCESS_KEY_ID     = var.AWS_ACCESS_KEY_ID
+      AWS_SECRET_ACCESS_KEY = var.AWS_SECRET_ACCESS_KEY
+      AWS_DEFAULT_REGION    = var.aws_region
+      AWS_IPFS_BUCKET       = aws_s3_bucket.ipfs_files.bucket
+      AWS_KMS_KEY           = var.AWS_KMS_KEY
+    }
   }
 }

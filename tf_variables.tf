@@ -10,6 +10,10 @@ variable "AWS_SECRET_ACCESS_KEY" {
   type = string
 }
 
+variable "AWS_KMS_KEY" {
+  type = string
+}
+
 variable "ssh_private_key" {
   type = string
 }
