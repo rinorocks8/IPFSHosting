@@ -42,6 +42,14 @@ resource "null_resource" "publish_ipfs" {
 
   provisioner "remote-exec" {
     inline = [
+      "echo 'Setting Env Variables'",
+      "stty -echo",
+      "export IPFS_PATH=/home/ubuntu/ipfs/data",
+      "export AWS_ACCESS_KEY_ID=${nonsensitive(var.AWS_ACCESS_KEY_ID)}",
+      "export AWS_SECRET_ACCESS_KEY=${nonsensitive(var.AWS_SECRET_ACCESS_KEY)}",
+      "export AWS_KMS_KEY=${nonsensitive(var.AWS_KMS_KEY)}",
+      "export AWS_DEFAULT_REGION=${var.AWS_DEFAULT_REGION}",
+      "stty echo",
       "rm -r /home/ubuntu/files/*",
       "aws s3 cp s3://${aws_s3_bucket.ipfs_files.bucket} /home/ubuntu/files/ --recursive",
       "aws kms decrypt --key-id $AWS_KMS_KEY --ciphertext-blob fileb:///home/ubuntu/files/ipns_key.encrypted --output text --query Plaintext | base64 -di | sudo tee /home/ubuntu/ipfs/data/keystore/key_ojsxg5lnmu  > /dev/null",
