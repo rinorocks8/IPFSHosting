@@ -34,9 +34,9 @@ resource "null_resource" "publish_ipfs" {
   }
 
   connection {
-    type     = "ssh"
-    user     = "ubuntu"
-    host     = aws_eip.ipfs_vpc_ip.public_ip
+    type        = "ssh"
+    user        = "ubuntu"
+    host        = aws_eip.ipfs_vpc_ip.public_ip
     private_key = base64decode(var.ssh_private_key)
   }
 
