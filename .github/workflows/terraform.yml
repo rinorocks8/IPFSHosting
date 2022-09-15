@@ -70,5 +70,5 @@ jobs:
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         env:
-          resume: ${{ secrets.TF_VAR_resume }}
+          TF_CLI_ARGS_init: '-var="resume=${{ secrets.TF_VAR_resume }}"'
         run: terraform apply -auto-approve
