@@ -10,8 +10,6 @@ jobs:
   terraform:
     name: "Terraform"
     runs-on: ubuntu-latest
-    env:
-      TF_VAR_resume: ${{ secrets.TF_VAR_resume }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -71,4 +69,6 @@ jobs:
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        env:
+          TF_VAR_resume: ${{ secrets.TF_VAR_resume }}
         run: terraform apply -auto-approve
