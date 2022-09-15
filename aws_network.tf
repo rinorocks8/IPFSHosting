@@ -94,18 +94,16 @@ resource "aws_security_group" "allow_ipfs" {
 }
 
 # ----------------------------------------------------------------------
-# EIP
+# EIP - Attaches Public IP to instance
 # ----------------------------------------------------------------------
-// Attaches Public IP to instance
 resource "aws_eip" "ipfs_vpc_ip" {
   instance = aws_instance.ipfs_host.id
   vpc      = true
 }
 
 # ----------------------------------------------------------------------
-# Gateway
+# Gateway - Routes Traffic
 # ----------------------------------------------------------------------
-// Route Traffic
 resource "aws_internet_gateway" "ipfs_gw" {
   vpc_id = aws_vpc.ipfs_vpc.id
   tags = {
