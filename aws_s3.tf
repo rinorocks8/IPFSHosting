@@ -42,6 +42,7 @@ resource "null_resource" "publish_ipfs" {
 
   provisioner "remote-exec" {
     inline = [
+      "cloud-init status --wait",
       "echo 'Setting Env Variables'",
       "stty -echo",
       "export IPFS_PATH=/home/ubuntu/ipfs/data",
