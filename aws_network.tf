@@ -97,6 +97,9 @@ resource "aws_security_group" "allow_ipfs" {
 # EIP - Attaches Public IP to instance
 # ----------------------------------------------------------------------
 resource "aws_eip" "ipfs_vpc_ip" {
+  depends_on = [
+    aws_instance.ipfs_host
+  ]
   instance = aws_instance.ipfs_host.id
   vpc      = true
 }
