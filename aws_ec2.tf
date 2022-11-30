@@ -33,7 +33,7 @@ data "cloudinit_config" "ipfs_bootstrap" {
 
 resource "aws_instance" "ipfs_host" {
   ami           = data.aws_ami.ubuntu.id
-  instance_type = "t4g.nano"
+  instance_type = "t4g.micro"
 
   vpc_security_group_ids = [aws_security_group.allow_ssh.id, aws_security_group.allow_ipfs.id]
   subnet_id              = aws_subnet.ipfs_subnet.id
